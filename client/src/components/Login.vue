@@ -40,6 +40,13 @@ export default {
           localStorage.getItem('token'),
           'info'
         )
+      }).catch(error => {
+        console.log(error)
+        swal(
+          'Login failed!',
+          'Wrong email or password',
+          'error'
+        )
       })
     }
   }

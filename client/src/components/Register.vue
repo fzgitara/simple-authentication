@@ -4,9 +4,11 @@
     <hr>
     <form>
       <div class="form-group">
-        <label for="inputEmail">Email</label>
-        <input type="email" class="form-control" v-model="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <p :class="{ 'control': true }">
+        <label class="label" for="email">Email</label>
+            <input v-validate="'required|email'" :class="{'input': true, 'is-danger': errors.has('email') }" name="email" type="text" placeholder="Email" class="form-control" v-model="inputEmail">
+            <span v-show="errors.has('email')" class="form-text text-danger">{{ errors.first('email') }}</span>
+        </p>
       </div>
       <div class="form-group">
         <label for="inputPassword">Password</label>
@@ -22,11 +24,15 @@
 <script>
 import axios from 'axios'
 import swal from 'sweetalert2'
+import Vue from 'vue'
+import VeeValidate from 'vee-validate'
+Vue.use(VeeValidate)
 export default {
   data () {
     return {
       inputEmail: '',
-      inputPassword: ''
+      inputPassword: '',
+      errorEmail: ''
     }
   },
   methods: {
@@ -36,8 +42,8 @@ export default {
         password: this.inputPassword
       }).then(response => {
         swal(
-          'Done!',
-          'Register success',
+          'Register success!',
+          'You will go to login page',
           'success'
         )
         this.$router.push({path: 'login'})
