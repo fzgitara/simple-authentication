@@ -1,12 +1,11 @@
 <template>
   <div class="jumbotron container">
-    <h1 class="display-4">Register <img id="logo" src="../assets/logo.png" alt=""></h1>
+    <h1 class="display-4">Login <img id="logo" src="../assets/logo.png" alt=""></h1>
     <hr>
     <form>
       <div class="form-group">
         <label for="inputEmail">Email</label>
         <input type="email" class="form-control" v-model="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>
       <div class="form-group">
         <label for="inputPassword">Password</label>
@@ -14,7 +13,7 @@
       </div>
     </form>
     <p class="lead">
-      <a class="btn btn-primary btn-lg text-light" @click="register" role="button">Register</a>
+      <a class="btn btn-primary btn-lg text-light" @click="login" role="button">Login</a>
     </p>
   </div>
 </template>
@@ -30,17 +29,17 @@ export default {
     }
   },
   methods: {
-    register () {
-      axios.post('http://localhost:3000/users/register', {
+    login () {
+      axios.post('http://localhost:3000/users/login', {
         email: this.inputEmail,
         password: this.inputPassword
       }).then(response => {
+        localStorage.setItem('token', response.data.token)
         swal(
-          'Done!',
-          'Register success',
-          'success'
+          'Your Token',
+          localStorage.getItem('token'),
+          'info'
         )
-        this.$router.push({path: 'login'})
       })
     }
   }
